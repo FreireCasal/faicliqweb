@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faicliq - Crecimiento Profesional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos personalizados para asegurar el "feísmo" intencional.
+           Sobrescribimos algunos defaults para garantizar cero suavidad.
+        */
+        body {
+            font-family: Arial, Helvetica, sans-serif; /* Tipografía básica del sistema */
+            background-color: #f0f0f0; /* Un gris genérico de fondo */
+            color: #000000;
+        }
+        
+        /* Eliminamos cualquier suavizado de fuente para que se vea más crudo */
+        * {
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .btn-raw {
+            background-color: #0000aa; /* Azul estándar "link" antiguo */
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            border: 2px solid black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-raw:hover {
+            background-color: #000000;
+            color: white;
+        }
+
+        .box-raw {
+            border: 2px solid black;
+            background-color: white;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- Contenedor Principal: Ancho limitado para parecer un documento de texto -->
+    <main class="w-full max-w-3xl bg-white border-2 border-black p-6 md:p-12 shadow-none">
+
+        <!-- 1. Hero Principal -->
+        <header class="mb-12 text-center border-b-2 border-black pb-8">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tighter uppercase">
+                Faicliq: impulsa tu crecimiento profesional.
+            </h1>
+            <p class="text-lg md:text-xl mb-6 font-mono bg-yellow-100 inline-block px-2 border border-black">
+                “He dedicado tiempo en hacer una web fea para que no te distraiga de tu objetivo.”
+            </p>
+            <div class="mt-4">
+                <a href="#recursos" class="btn-raw">
+                    Ver recursos
+                </a>
+            </div>
+        </header>
+
+        <!-- 2. Sección: Por qué estás aquí -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 uppercase underline decoration-2 decoration-black">¿Por qué estás aquí?</h2>
+            <ul class="list-disc list-inside space-y-2 text-lg">
+                <li>Tu carrera no avanza.</li>
+                <li>No tienes apoyo profesional.</li>
+                <li>Quieres crecer pero no sabes por dónde empezar.</li>
+            </ul>
+            <p class="mt-4 font-bold p-2 border border-black bg-gray-100 inline-block">
+                No necesitas una web bonita: necesitas claridad y recursos.
+            </p>
+        </section>
+
+        <!-- 3. Sección: Lo que encontrarás -->
+        <section id="recursos" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 uppercase underline decoration-2 decoration-black">Lo que encontrarás</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-2 border-black">
+                
+                <!-- Columna 1 -->
+                <article class="p-6 border-b-2 md:border-b-0 md:border-r-2 border-black hover:bg-gray-50">
+                    <h3 class="text-xl font-bold mb-3">Cursos online</h3>
+                    <p class="mb-4 text-sm leading-relaxed">
+                        Cursos sobre liderazgo, ventas y documentación de procesos. Sin relleno.
+                    </p>
+                    <a href="https://www.udemy.com/courses/search/?src=ukw&q=victor+freire+casal" target="_blank" rel="noopener noreferrer" class="text-blue-800 font-bold underline hover:text-black hover:no-underline text-sm">
+                        → Explorar cursos
+                    </a>
+                </article>
+
+                <!-- Columna 2 -->
+                <article class="p-6 border-b-2 md:border-b-0 md:border-r-2 border-black hover:bg-gray-50">
+                    <h3 class="text-xl font-bold mb-3">Plantillas</h3>
+                    <p class="mb-4 text-sm leading-relaxed">
+                        Plantillas prácticas en Notion, Coda y PowerPoint. Copiar y pegar.
+                    </p>
+                    <a href="https://faicliq.gumroad.com/" target="_blank" rel="noopener noreferrer" class="text-blue-800 font-bold underline hover:text-black hover:no-underline text-sm">
+                        → Descargar plantillas
+                    </a>
+                </article>
+
+                <!-- Columna 3 -->
+                <article class="p-6 hover:bg-gray-50">
+                    <h3 class="text-xl font-bold mb-3">Artículos y libros</h3>
+                    <p class="mb-4 text-sm leading-relaxed">
+                        Contenido sobre liderazgo, soft skills y estrategias profesionales.
+                    </p>
+                    <a href="https://www.amazon.es/stores/author/B093YJQT9W/allbooks?ingress=0&visitId=69605326-66dd-45a7-9996-e1033150f39c" target="_blank" rel="noopener noreferrer" class="text-blue-800 font-bold underline hover:text-black hover:no-underline text-sm">
+                        → Leer artículos
+                    </a>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- 4. Mensaje final -->
+        <section class="mb-12 text-center bg-black text-white p-8 border-2 border-black">
+            <p class="text-lg md:text-xl font-medium mb-6 leading-relaxed">
+                “La mayoría de webs intentan impresionarte. Esta intenta ayudarte.<br>
+                El diseño no cambia tu futuro profesional. Tus decisiones sí.”
+            </p>
+            <a href="#" class="btn-raw bg-white text-black hover:bg-gray-300 border-white">
+                Empieza a crecer hoy
+            </a>
+        </section>
+
+        <!-- 5. Pie de página -->
+        <footer class="text-center text-sm text-gray-600 border-t-2 border-black pt-6">
+            <p>Faicliq · Recursos simples para tu crecimiento profesional.</p>
+            <p class="mt-1 text-xs">© 2024 Sin derechos reservados, comparte el conocimiento.</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
