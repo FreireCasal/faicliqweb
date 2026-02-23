@@ -1,142 +1,268 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faicliq - Crecimiento Profesional</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Estilos personalizados para asegurar el "feísmo" intencional.
-           Sobrescribimos algunos defaults para garantizar cero suavidad.
-        */
-        body {
-            font-family: Arial, Helvetica, sans-serif; /* Tipografía básica del sistema */
-            background-color: #f0f0f0; /* Un gris genérico de fondo */
-            color: #000000;
-        }
-        
-        /* Eliminamos cualquier suavizado de fuente para que se vea más crudo */
-        * {
-            -webkit-font-smoothing: none;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .btn-raw {
-            background-color: #0000aa; /* Azul estándar "link" antiguo */
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            display: inline-block;
-            border: 2px solid black;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .btn-raw:hover {
-            background-color: #000000;
-            color: white;
-        }
-
-        .box-raw {
-            border: 2px solid black;
-            background-color: white;
-            padding: 20px;
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Elige Tu Propia Aventura Profesional — Faicliq</title>
+<meta name="description" content="3 preguntas para descubrir el recurso exacto que necesitas en tu carrera. Por Víctor Freire Casal."/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0f;font-family:'Inter',system-ui,sans-serif;min-height:100vh}
+a{text-decoration:none}
+</style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState}=React;
+const UDEMY="https://www.udemy.com/courses/search/?src=ukw&q=victor+freire+casal";
+const AMAZON="https://www.amazon.es/stores/author/B093YJQT9W/allbooks?ingress=0&visitId=69605326-66dd-45a7-9996-e1033150f39c";
 
-    <!-- Contenedor Principal: Ancho limitado para parecer un documento de texto -->
-    <main class="w-full max-w-3xl bg-white border-2 border-black p-6 md:p-12 shadow-none">
+const flow={
+  q1:{text:"¿En qué momento de tu carrera te encuentras ahora mismo?",options:[
+    {id:"start",label:"Estoy empezando mi camino",emoji:"🌱"},
+    {id:"change",label:"Busco un cambio de rumbo",emoji:"🧭"},
+    {id:"grow",label:"Quiero crecer donde estoy",emoji:"📈"},
+    {id:"lead",label:"Aspiro a liderar equipos",emoji:"🏔️"},
+  ]},
+  q2:{
+    start:{text:"¿Qué es lo que más te preocupa ahora mismo?",options:[
+      {id:"strengths",label:"No sé bien cuáles son mis fortalezas"},
+      {id:"direction",label:"No tengo claro hacia dónde ir"},
+      {id:"organize",label:"Me cuesta organizarme y ser productivo"},
+    ]},
+    change:{text:"¿Qué crees que te está frenando?",options:[
+      {id:"values",label:"Mis valores no encajan con la empresa"},
+      {id:"differentiate",label:"No sé qué me hace diferente"},
+      {id:"fear",label:"El miedo a la incertidumbre me paraliza"},
+    ]},
+    grow:{text:"¿Qué quieres desarrollar principalmente?",options:[
+      {id:"productivity",label:"Mi organización y productividad"},
+      {id:"business",label:"Mi comprensión del negocio"},
+      {id:"brand",label:"Mi visibilidad y marca personal"},
+    ]},
+    lead:{text:"¿En qué aspecto del liderazgo quieres trabajar más?",options:[
+      {id:"team",label:"Gestionar y motivar a mi equipo"},
+      {id:"communication",label:"Comunicar mejor y dar feedback"},
+      {id:"highperf",label:"Crear equipos de alto rendimiento"},
+    ]},
+  },
+  q3:{
+    strengths:{text:"¿Cómo prefieres aprender?",options:[{id:"A",label:"Haciendo y practicando"},{id:"B",label:"Leyendo y reflexionando"},{id:"C",label:"Con guía y estructura"}]},
+    direction:{text:"¿Qué te ayudaría más?",options:[{id:"A",label:"Ejercicios de autoconocimiento"},{id:"B",label:"Entender las tendencias del mercado"},{id:"C",label:"Casos reales y ejemplos"}]},
+    organize:{text:"¿Cuál es tu mayor obstáculo?",options:[{id:"A",label:"La gestión del tiempo"},{id:"B",label:"Priorizar lo importante"},{id:"C",label:"Mantener la constancia"}]},
+    values:{text:"¿Cuándo te sientes más tú mismo en el trabajo?",options:[{id:"A",label:"Cuando aprendo cosas nuevas"},{id:"B",label:"Cuando ayudo a los demás"},{id:"C",label:"Cuando resuelvo problemas complejos"}]},
+    differentiate:{text:"¿Qué suelen decir de ti tus compañeros?",options:[{id:"A",label:"Que soy muy resolutivo"},{id:"B",label:"Que comunico muy bien"},{id:"C",label:"Que siempre me involucro al 100%"}]},
+    fear:{text:"¿Qué te daría más seguridad?",options:[{id:"A",label:"Conocerme mejor a mí mismo"},{id:"B",label:"Tener un plan claro de acción"},{id:"C",label:"Saber qué habilidades necesito"}]},
+    productivity:{text:"¿Con qué frecuencia sientes que el día se te va sin avanzar?",options:[{id:"A",label:"Casi todos los días"},{id:"B",label:"A menudo, pero lo controlo"},{id:"C",label:"Solo en épocas de mucho trabajo"}]},
+    business:{text:"¿Qué parte del negocio te resulta más opaca?",options:[{id:"A",label:"Las métricas y finanzas"},{id:"B",label:"La estrategia y el producto"},{id:"C",label:"Las dinámicas del equipo"}]},
+    brand:{text:"¿En qué plataforma quieres ser más visible?",options:[{id:"A",label:"LinkedIn"},{id:"B",label:"Creando contenido propio"},{id:"C",label:"En mi empresa actual"}]},
+    team:{text:"¿Qué es lo más difícil ahora mismo en tu equipo?",options:[{id:"A",label:"Mantener la motivación"},{id:"B",label:"Gestionar conflictos"},{id:"C",label:"Delegar sin perder el control"}]},
+    communication:{text:"¿Cuándo te sientes menos seguro comunicando?",options:[{id:"A",label:"Al dar feedback difícil"},{id:"B",label:"En presentaciones grandes"},{id:"C",label:"Al comunicar hacia arriba"}]},
+    highperf:{text:"¿Qué característica buscas en tu equipo ideal?",options:[{id:"A",label:"Autonomía y responsabilidad"},{id:"B",label:"Colaboración y confianza"},{id:"C",label:"Innovación y adaptación"}]},
+  }
+};
 
-        <!-- 1. Hero Principal -->
-        <header class="mb-12 text-center border-b-2 border-black pb-8">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tighter uppercase">
-                Faicliq: impulsa tu crecimiento profesional.
+const results={
+  start_strengths:{title:"Tu siguiente página: Conócete para crecer",message:"Antes de elegir el camino, necesitas conocer al viajero. Identificar tus fortalezas es el primer paso que cambiará la trayectoria de tu carrera.",primary:{label:"Curso: Autoconocimiento y Carrera Profesional",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  start_direction:{title:"Tu siguiente página: Del caos a la claridad",message:"No necesitas tenerlo todo claro desde el principio. Necesitas las herramientas correctas para trazar tu mapa profesional paso a paso.",primary:{label:"Cursos de Carrera Profesional",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  start_organize:{title:"Tu siguiente página: Optimiza tu energía",message:"La productividad no es hacer más cosas, es hacer las cosas correctas. Aprende a organizar tu tiempo como un profesional desde el primer día.",primary:{label:"Curso: Optimiza Tu Productividad",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  change_values:{title:"Tu siguiente página: Tu brújula interna",message:"Cuando tus valores no encajan con los de tu empresa, ningún salario compensa. Es hora de usar tus valores como brújula para elegir mejor.",primary:{label:"Cursos de Desarrollo Profesional",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  change_differentiate:{title:"Tu siguiente página: Tu marca, tu diferencial",message:"Lo que te diferencia ya está dentro de ti. Solo necesitas sacarlo a la luz y comunicarlo con claridad al mundo.",primary:{label:"Cursos de Marca Personal y Carrera",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  change_fear:{title:"Tu siguiente página: El salto de gigante",message:"La incertidumbre no desaparece, pero sí puedes aprender a moverte dentro de ella. Cada crisis es una oportunidad disfrazada.",primary:{label:"Cursos de Carrera y Adaptabilidad",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  grow_productivity:{title:"Tu siguiente página: Trabaja inteligente, no más duro",message:"La productividad real no es trabajar más horas. Es tener claridad sobre lo que importa y sistemas que te sostengan.",primary:{label:"Curso: Optimiza Tu Productividad",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Plantillas y recursos",url:AMAZON}},
+  grow_business:{title:"Tu siguiente página: Piensa como el dueño del negocio",message:"Entender las métricas y la estrategia de tu empresa te abrirá puertas que otros ni siquiera ven. Eso es lo que te hace imprescindible.",primary:{label:"Curso: Métricas Clave para Startups",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  grow_brand:{title:"Tu siguiente página: Hazte visible",message:"Si nadie sabe lo que vales, es como si no lo valieras. Construir tu marca personal es la inversión con mejor retorno de tu carrera.",primary:{label:"Cursos de Marca y Liderazgo",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  lead_team:{title:"Tu siguiente página: Lidera personas, no tareas",message:"Los grandes líderes no se miden por lo que hacen, sino por lo que consiguen a través de su equipo. Aprende a sacar lo mejor de cada persona.",primary:{label:"Curso: Creación y Gestión de Equipos de Alto Rendimiento",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  lead_communication:{title:"Tu siguiente página: El poder de comunicar bien",message:"La comunicación es el superpoder del líder moderno. Un feedback bien dado puede cambiar una carrera. Aprende a darlo y recibirlo.",primary:{label:"Cursos de Liderazgo y Comunicación",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+  lead_highperf:{title:"Tu siguiente página: El equipo que lo cambia todo",message:"Los equipos de alto rendimiento no nacen, se construyen. Con las herramientas correctas, puedes crear un equipo que se supere a sí mismo cada día.",primary:{label:"Curso: Creación y Gestión de Equipos de Alto Rendimiento",url:UDEMY,tag:"⭐ Recomendado"},secondary:{label:"Libro: Elige Tu Propia Aventura",url:AMAZON}},
+};
+
+const getResultKey=(q1,q2)=>{
+  const map={start:{strengths:"start_strengths",direction:"start_direction",organize:"start_organize"},change:{values:"change_values",differentiate:"change_differentiate",fear:"change_fear"},grow:{productivity:"grow_productivity",business:"grow_business",brand:"grow_brand"},lead:{team:"lead_team",communication:"lead_communication",highperf:"lead_highperf"}};
+  return map[q1]?.[q2]||"start_direction";
+};
+
+function Btn({children,onClick,primary}){
+  const[h,setH]=useState(false);
+  return(
+    <button onClick={onClick} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{
+      background:primary?(h?"linear-gradient(135deg,#6d28d9,#5b21b6)":"linear-gradient(135deg,#7c3aed,#6d28d9)"):(h?"rgba(124,58,237,0.18)":"rgba(255,255,255,0.04)"),
+      border:primary?"none":(h?"1px solid rgba(167,139,250,0.5)":"1px solid rgba(255,255,255,0.08)"),
+      borderRadius:14,padding:primary?"16px 40px":"18px 22px",
+      color:primary?"#fff":(h?"#fff":"rgba(255,255,255,0.75)"),
+      fontSize:primary?17:16,fontWeight:primary?700:600,cursor:"pointer",
+      transition:"all 0.18s",transform:h&&!primary?"translateX(4px)":"none",
+      boxShadow:primary&&h?"0 0 40px rgba(124,58,237,0.5)":primary?"0 0 28px rgba(124,58,237,0.35)":"none",
+      letterSpacing:"-0.01em",display:"block",width:primary?"auto":"100%",textAlign:"left",
+    }}>{children}</button>
+  );
+}
+
+function QuestionCard({step,total,question,options,onSelect,withEmoji,last}){
+  const[h,setH]=useState(null);
+  return(
+    <div>
+      <div style={{marginBottom:32}}>
+        <div style={{color:"rgba(167,139,250,0.7)",fontSize:12,fontWeight:700,letterSpacing:"0.15em",textTransform:"uppercase",marginBottom:14}}>
+          Pregunta {step} de {total}
+        </div>
+        <h2 style={{color:"#fff",fontSize:"clamp(20px,3.5vw,28px)",fontWeight:800,lineHeight:1.25,letterSpacing:"-0.02em"}}>
+          {question}
+        </h2>
+        {last&&<p style={{color:"rgba(255,255,255,0.35)",fontSize:14,marginTop:10}}>Última pregunta — ya casi está 🎯</p>}
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:12}}>
+        {options.map((opt,i)=>(
+          <button key={opt.id} onClick={()=>onSelect(opt.id)} onMouseEnter={()=>setH(i)} onMouseLeave={()=>setH(null)} style={{
+            background:h===i?"rgba(124,58,237,0.18)":"rgba(255,255,255,0.04)",
+            border:h===i?"1px solid rgba(167,139,250,0.5)":"1px solid rgba(255,255,255,0.08)",
+            borderRadius:14,padding:"18px 22px",
+            color:h===i?"#fff":"rgba(255,255,255,0.75)",
+            fontSize:16,fontWeight:600,cursor:"pointer",textAlign:"left",
+            transition:"all 0.18s",transform:h===i?"translateX(4px)":"translateX(0)",
+            display:"flex",alignItems:"center",gap:14,letterSpacing:"-0.01em",
+          }}>
+            {withEmoji&&opt.emoji&&<span style={{fontSize:24,lineHeight:1}}>{opt.emoji}</span>}
+            {!withEmoji&&<span style={{
+              width:28,height:28,borderRadius:8,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",
+              border:h===i?"1.5px solid rgba(167,139,250,0.6)":"1.5px solid rgba(255,255,255,0.12)",
+              fontSize:12,fontWeight:700,color:h===i?"#a78bfa":"rgba(255,255,255,0.3)",transition:"all 0.18s",
+            }}>{String.fromCharCode(65+i)}</span>}
+            <span>{opt.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const[step,setStep]=useState("intro");
+  const[answers,setAnswers]=useState({});
+  const[visible,setVisible]=useState(true);
+
+  const go=(next,newA=answers)=>{
+    setVisible(false);
+    setTimeout(()=>{setAnswers(newA);setStep(next);setVisible(true);},280);
+  };
+
+  const resultKey=answers.q1&&answers.q2?getResultKey(answers.q1,answers.q2):null;
+  const result=resultKey?results[resultKey]:null;
+  const q2Data=answers.q1?flow.q2[answers.q1]:null;
+  const q3Data=answers.q2?flow.q3[answers.q2]:null;
+  const stepNum={intro:0,q1:1,q2:2,q3:3,result:4}[step];
+
+  const[hCTA,setHCTA]=useState(false);
+  const[hSec,setHSec]=useState(false);
+  const[hRestart,setHRestart]=useState(false);
+  const[hStart,setHStart]=useState(false);
+
+  return(
+    <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#0a0a0f 0%,#0f0a1e 50%,#0a0f1e 100%)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:20,position:"relative",overflow:"hidden"}}>
+
+      {/* Grid bg */}
+      <div style={{position:"absolute",inset:0,opacity:0.03,backgroundImage:"linear-gradient(rgba(139,92,246,1) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,1) 1px,transparent 1px)",backgroundSize:"40px 40px",pointerEvents:"none"}}/>
+      <div style={{position:"absolute",top:"20%",left:"50%",transform:"translateX(-50%)",width:600,height:300,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(124,58,237,0.12) 0%,transparent 70%)",pointerEvents:"none"}}/>
+
+      {/* Progress */}
+      {step!=="intro"&&step!=="result"&&(
+        <div style={{position:"fixed",top:0,left:0,right:0,height:3,background:"rgba(255,255,255,0.05)",zIndex:99}}>
+          <div style={{height:"100%",width:`${(stepNum/3)*100}%`,background:"linear-gradient(90deg,#7c3aed,#a78bfa)",transition:"width 0.5s ease"}}/>
+        </div>
+      )}
+
+      {/* Main card */}
+      <div style={{maxWidth:620,width:"100%",transition:"opacity 0.28s ease,transform 0.28s ease",opacity:visible?1:0,transform:visible?"translateY(0)":"translateY(12px)"}}>
+
+        {step==="intro"&&(
+          <div style={{textAlign:"center"}}>
+            <div style={{display:"inline-block",padding:"6px 18px",borderRadius:999,border:"1px solid rgba(139,92,246,0.4)",background:"rgba(139,92,246,0.08)",color:"#a78bfa",fontSize:12,fontWeight:600,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:28}}>
+              FAICLIQ · Víctor Freire Casal
+            </div>
+            <div style={{fontSize:60,marginBottom:8}}>📖</div>
+            <h1 style={{color:"#fff",fontSize:"clamp(28px,5vw,46px)",fontWeight:900,lineHeight:1.1,margin:"0 0 16px",letterSpacing:"-0.02em"}}>
+              Elige Tu Propia<br/>
+              <span style={{background:"linear-gradient(135deg,#7c3aed,#a78bfa,#c4b5fd)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>
+                Aventura Profesional
+              </span>
             </h1>
-            <p class="text-lg md:text-xl mb-6 font-mono bg-yellow-100 inline-block px-2 border border-black">
-                “He dedicado tiempo en hacer una web fea para que no te distraiga de tu objetivo.”
+            <p style={{color:"rgba(255,255,255,0.55)",fontSize:17,lineHeight:1.6,margin:"0 auto 36px",maxWidth:420}}>
+              3 preguntas para descubrir el recurso exacto que necesitas ahora mismo en tu carrera.
             </p>
-            <div class="mt-4">
-                <a href="#recursos" class="btn-raw">
-                    Ver recursos
-                </a>
+            <button onClick={()=>go("q1")} onMouseEnter={()=>setHStart(true)} onMouseLeave={()=>setHStart(false)} style={{
+              background:"linear-gradient(135deg,#7c3aed,#6d28d9)",color:"#fff",border:"none",borderRadius:14,padding:"16px 40px",
+              fontSize:17,fontWeight:700,cursor:"pointer",letterSpacing:"-0.01em",
+              boxShadow:hStart?"0 0 48px rgba(124,58,237,0.6),0 2px 8px rgba(0,0,0,0.4)":"0 0 32px rgba(124,58,237,0.4),0 2px 8px rgba(0,0,0,0.4)",
+              transform:hStart?"scale(1.04)":"scale(1)",transition:"all 0.15s",
+            }}>Empezar mi aventura →</button>
+            <p style={{color:"rgba(255,255,255,0.2)",fontSize:13,marginTop:16}}>Solo 3 preguntas · Sin registro</p>
+          </div>
+        )}
+
+        {step==="q1"&&<QuestionCard step="1" total="3" question={flow.q1.text} options={flow.q1.options} onSelect={id=>go("q2",{q1:id})} withEmoji/>}
+        {step==="q2"&&q2Data&&<QuestionCard step="2" total="3" question={q2Data.text} options={q2Data.options} onSelect={id=>go("q3",{...answers,q2:id})}/>}
+        {step==="q3"&&q3Data&&<QuestionCard step="3" total="3" question={q3Data.text} options={q3Data.options} onSelect={id=>go("result",{...answers,q3:id})} last/>}
+
+        {step==="result"&&result&&(
+          <div style={{textAlign:"center"}}>
+            <div style={{display:"inline-block",padding:"6px 18px",borderRadius:999,border:"1px solid rgba(74,222,128,0.3)",background:"rgba(74,222,128,0.07)",color:"#4ade80",fontSize:12,fontWeight:600,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:24}}>
+              ✦ Tu próximo capítulo
             </div>
-        </header>
+            <h2 style={{color:"#fff",fontSize:"clamp(22px,4vw,34px)",fontWeight:900,lineHeight:1.2,margin:"0 0 16px",letterSpacing:"-0.02em"}}>{result.title}</h2>
+            <p style={{color:"rgba(255,255,255,0.6)",fontSize:16,lineHeight:1.65,margin:"0 auto 36px",maxWidth:460}}>{result.message}</p>
 
-        <!-- 2. Sección: Por qué estás aquí -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4 uppercase underline decoration-2 decoration-black">¿Por qué estás aquí?</h2>
-            <ul class="list-disc list-inside space-y-2 text-lg">
-                <li>Tu carrera no avanza.</li>
-                <li>No tienes apoyo profesional.</li>
-                <li>Quieres crecer pero no sabes por dónde empezar.</li>
-            </ul>
-            <p class="mt-4 font-bold p-2 border border-black bg-gray-100 inline-block">
-                No necesitas una web bonita: necesitas claridad y recursos.
-            </p>
-        </section>
-
-        <!-- 3. Sección: Lo que encontrarás -->
-        <section id="recursos" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6 uppercase underline decoration-2 decoration-black">Lo que encontrarás</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-2 border-black">
-                
-                <!-- Columna 1 -->
-                <article class="p-6 border-b-2 md:border-b-0 md:border-r-2 border-black hover:bg-gray-50">
-                    <h3 class="text-xl font-bold mb-3">Cursos online</h3>
-                    <p class="mb-4 text-sm leading-relaxed">
-                        Cursos sobre liderazgo, ventas y documentación de procesos. Sin relleno.
-                    </p>
-                    <a href="https://www.udemy.com/courses/search/?src=ukw&q=victor+freire+casal" target="_blank" rel="noopener noreferrer" class="text-blue-800 font-bold underline hover:text-black hover:no-underline text-sm">
-                        → Explorar cursos
-                    </a>
-                </article>
-
-                <!-- Columna 2 -->
-                <article class="p-6 border-b-2 md:border-b-0 md:border-r-2 border-black hover:bg-gray-50">
-                    <h3 class="text-xl font-bold mb-3">Plantillas</h3>
-                    <p class="mb-4 text-sm leading-relaxed">
-                        Plantillas prácticas en Notion, Coda y PowerPoint. Copiar y pegar.
-                    </p>
-                    <a href="https://faicliq.gumroad.com/" target="_blank" rel="noopener noreferrer" class="text-blue-800 font-bold underline hover:text-black hover:no-underline text-sm">
-                        → Descargar plantillas
-                    </a>
-                </article>
-
-                <!-- Columna 3 -->
-                <article class="p-6 hover:bg-gray-50">
-                    <h3 class="text-xl font-bold mb-3">Artículos y libros</h3>
-                    <p class="mb-4 text-sm leading-relaxed">
-                        Contenido sobre liderazgo, soft skills y estrategias profesionales.
-                    </p>
-                    <a href="https://www.amazon.es/stores/author/B093YJQT9W/allbooks?ingress=0&visitId=69605326-66dd-45a7-9996-e1033150f39c" target="_blank" rel="noopener noreferrer" class="text-blue-800 font-bold underline hover:text-black hover:no-underline text-sm">
-                        → Leer artículos
-                    </a>
-                </article>
-
-            </div>
-        </section>
-
-        <!-- 4. Mensaje final -->
-        <section class="mb-12 text-center bg-black text-white p-8 border-2 border-black">
-            <p class="text-lg md:text-xl font-medium mb-6 leading-relaxed">
-                “La mayoría de webs intentan impresionarte. Esta intenta ayudarte.<br>
-                El diseño no cambia tu futuro profesional. Tus decisiones sí.”
-            </p>
-            <a href="#" class="btn-raw bg-white text-black hover:bg-gray-300 border-white">
-                Empieza a crecer hoy
+            <a href={result.primary.url} target="_blank" rel="noopener noreferrer">
+              <div onMouseEnter={()=>setHCTA(true)} onMouseLeave={()=>setHCTA(false)} style={{
+                background:"linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%)",borderRadius:14,padding:"20px 28px",marginBottom:14,
+                boxShadow:hCTA?"0 0 56px rgba(124,58,237,0.5),0 4px 16px rgba(0,0,0,0.3)":"0 0 40px rgba(124,58,237,0.35),0 4px 16px rgba(0,0,0,0.3)",
+                cursor:"pointer",transform:hCTA?"scale(1.02)":"scale(1)",transition:"all 0.15s",
+                display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,
+              }}>
+                <div style={{textAlign:"left"}}>
+                  {result.primary.tag&&<div style={{color:"#c4b5fd",fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:4}}>{result.primary.tag}</div>}
+                  <div style={{color:"#fff",fontSize:16,fontWeight:700}}>{result.primary.label}</div>
+                  <div style={{color:"rgba(255,255,255,0.55)",fontSize:13,marginTop:2}}>Ver en Udemy →</div>
+                </div>
+                <div style={{fontSize:28,flexShrink:0}}>🎓</div>
+              </div>
             </a>
-        </section>
 
-        <!-- 5. Pie de página -->
-        <footer class="text-center text-sm text-gray-600 border-t-2 border-black pt-6">
-            <p>Faicliq · Recursos simples para tu crecimiento profesional.</p>
-            <p class="mt-1 text-xs">© 2024 Sin derechos reservados, comparte el conocimiento.</p>
-        </footer>
+            <a href={result.secondary.url} target="_blank" rel="noopener noreferrer">
+              <div onMouseEnter={()=>setHSec(true)} onMouseLeave={()=>setHSec(false)} style={{
+                border:hSec?"1px solid rgba(167,139,250,0.4)":"1px solid rgba(255,255,255,0.1)",borderRadius:14,padding:"16px 24px",marginBottom:32,
+                cursor:"pointer",transform:hSec?"scale(1.01)":"scale(1)",transition:"all 0.15s",
+                display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,background:"rgba(255,255,255,0.03)",
+              }}>
+                <div style={{textAlign:"left"}}>
+                  <div style={{color:"rgba(255,255,255,0.4)",fontSize:11,fontWeight:600,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:4}}>También te puede interesar</div>
+                  <div style={{color:"rgba(255,255,255,0.85)",fontSize:15,fontWeight:600}}>{result.secondary.label}</div>
+                  <div style={{color:"rgba(255,255,255,0.35)",fontSize:13,marginTop:2}}>Ver en Amazon →</div>
+                </div>
+                <div style={{fontSize:24,flexShrink:0}}>📚</div>
+              </div>
+            </a>
 
-    </main>
+            <button onClick={()=>go("intro",{})} onMouseEnter={()=>setHRestart(true)} onMouseLeave={()=>setHRestart(false)} style={{
+              background:"transparent",border:"none",
+              color:hRestart?"rgba(255,255,255,0.7)":"rgba(255,255,255,0.3)",
+              fontSize:14,cursor:"pointer",textDecoration:"underline",
+              textDecorationColor:hRestart?"rgba(255,255,255,0.4)":"rgba(255,255,255,0.15)",
+              transition:"color 0.15s",
+            }}>← Volver a empezar</button>
+          </div>
+        )}
+      </div>
 
+      {step==="intro"&&<p style={{position:"absolute",bottom:20,color:"rgba(255,255,255,0.15)",fontSize:12}}>Basado en el libro "Elige Tu Propia Aventura" · Víctor Freire Casal</p>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
 </body>
 </html>
